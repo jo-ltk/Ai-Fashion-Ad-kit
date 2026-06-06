@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
   component: LandingPage,
 });
 
-const PRICE = 400;
+const PRICE = 499;
 const PRICE_DISPLAY = `₹${PRICE}`;
 const PROMPT_GUIDE_PRICE = "₹399";
 
@@ -77,7 +77,7 @@ const TESTIMONIALS = [
     name: "Rohan Patel",
     city: "Ahmedabad",
     quote:
-      "Honestly worth way more than ₹400. The prompt guide alone is gold. Clients think I hired a full crew.",
+      "Honestly worth way more than ₹499. The prompt guide alone is gold. Clients think I hired a full crew.",
   },
   {
     name: "Sneha Reddy",
@@ -95,7 +95,7 @@ const TESTIMONIALS = [
     name: "Ananya Nair",
     city: "Kochi",
     quote:
-      "Best ₹400 I've spent this year. No fluff, only working workflows. UGC module is a banger.",
+      "Best ₹499 I've spent this year. No fluff, only working workflows. UGC module is a banger.",
   },
 ];
 
