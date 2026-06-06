@@ -1,3 +1,4 @@
+import { useRef, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { ArrowRight, Sparkles, Check, Play, X, Gift, BadgeCheck } from "lucide-react";
 import {
@@ -6,6 +7,11 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { EnrollmentPopup } from "@/components/EnrollmentPopup";
 
 export const Route = createFileRoute("/")({
@@ -13,12 +19,14 @@ export const Route = createFileRoute("/")({
 });
 
 const PRICE = 400;
+const PRICE_DISPLAY = `₹${PRICE}`;
+const PROMPT_GUIDE_PRICE = "₹399";
 
 const VIDEOS = [
-  { title: "Fashion Ad", tag: "Fashion Ad" },
-  { title: "UGC", tag: "UGC" },
-  { title: "Product Ad", tag: "Product Ad" },
-  { title: "Fashion Ad", tag: "Fashion Ad" },
+  { title: "Fashion Ad", tag: "Fashion Ad", src: "/videos/fashion-ad-1.mp4" },
+  { title: "UGC", tag: "UGC", src: "/videos/ugc.mp4" },
+  { title: "Product Ad", tag: "Product Ad", src: "/videos/product-ad.mp4" },
+  { title: "Fashion Ad", tag: "Fashion Ad", src: "/videos/fashion-ad-2.mp4" },
 ];
 
 const INCLUDES = [
@@ -69,7 +77,7 @@ const TESTIMONIALS = [
     name: "Rohan Patel",
     city: "Ahmedabad",
     quote:
-      "Honestly worth way more than 400. The prompt guide alone is gold. Clients think I hired a full crew.",
+      "Honestly worth way more than ₹400. The prompt guide alone is gold. Clients think I hired a full crew.",
   },
   {
     name: "Sneha Reddy",
@@ -87,7 +95,7 @@ const TESTIMONIALS = [
     name: "Ananya Nair",
     city: "Kochi",
     quote:
-      "Best 400 I've spent this year. No fluff, only working workflows. UGC module is a banger.",
+      "Best ₹400 I've spent this year. No fluff, only working workflows. UGC module is a banger.",
   },
 ];
 
@@ -114,7 +122,7 @@ const FAQS = [
   },
   {
     q: "Do I get the prompt guide for free?",
-    a: "Yes. The Prompt Guide worth 399 is included absolutely free with your purchase.",
+    a: "Yes. The Prompt Guide worth ₹399 is included absolutely free with your purchase.",
   },
   {
     q: "Do I need prior experience?",
@@ -129,9 +137,9 @@ function LandingPage() {
       {/* Top price bar */}
       <div className="bg-lime text-lime-foreground border-b border-black/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-10 py-2.5 flex flex-wrap items-center justify-center gap-x-4 gap-y-1 text-xs sm:text-sm font-semibold uppercase tracking-[0.14em]">
-          <span className="text-base sm:text-lg">{PRICE}</span>
+          <span className="text-base sm:text-lg">Only {PRICE_DISPLAY}</span>
           <span className="opacity-60">•</span>
-          <span>No upsells · Lifetime access</span>
+          <span>One-time price · No upsells · Lifetime access</span>
         </div>
       </div>
 
@@ -174,7 +182,7 @@ function LandingPage() {
           href="#pricing"
           className="inline-flex items-center gap-2 rounded-full bg-lime text-lime-foreground px-4 py-2 text-sm font-semibold hover:opacity-90 transition"
         >
-          Get {PRICE} <ArrowRight className="size-4" />
+          Get for {PRICE_DISPLAY} <ArrowRight className="size-4" />
         </a>
       </header>
 
@@ -208,7 +216,7 @@ function LandingPage() {
             href="#pricing"
             className="inline-flex items-center gap-2 rounded-full bg-lime text-lime-foreground px-7 py-4 text-base font-semibold glow-lime hover:opacity-90 transition"
           >
-            Get it for {PRICE} <ArrowRight className="size-4" />
+            Get it for {PRICE_DISPLAY} <ArrowRight className="size-4" />
           </a>
           <a
             href="#examples"
@@ -235,7 +243,7 @@ function LandingPage() {
             </div>
             <div className="mt-1.5 font-display text-2xl sm:text-3xl tracking-tight">
               Prompt Guide{" "}
-              <span className="text-muted-foreground line-through text-xl">worth 399</span>{" "}
+              <span className="text-muted-foreground line-through text-xl">worth {PROMPT_GUIDE_PRICE}</span>{" "}
               <span className="text-lime">absolutely FREE</span>
             </div>
             <p className="mt-1 text-sm text-muted-foreground">
@@ -256,9 +264,9 @@ function LandingPage() {
           </p>
         </div>
 
-        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto">
+        <div className="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto items-stretch">
           {VIDEOS.map((v, i) => (
-            <VideoCard key={i} title={v.title} tag={v.tag} index={i} />
+            <VideoCard key={i} title={v.title} tag={v.tag} src={v.src} />
           ))}
         </div>
       </section>
@@ -437,18 +445,19 @@ function LandingPage() {
             <em className="italic text-lime font-normal">tonight.</em>
           </h2>
           <p className="mt-4 text-muted-foreground">
-            Recorded session · Lifetime access · No upsells · Free Prompt Guide (399) included
+            Recorded session · Lifetime access · No upsells · Free Prompt Guide ({PROMPT_GUIDE_PRICE}) included
           </p>
 
           <div className="mt-8">
-            <span className="font-display text-6xl">{PRICE}</span>
+            <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground">One-time price</div>
+            <span className="font-display text-6xl">{PRICE_DISPLAY}</span>
           </div>
 
           <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-3 text-left text-sm max-w-md mx-auto">
             {[
               "Lifetime recorded access",
               "All tools are free to get started",
-              "Prompt Guide worth 399 free",
+              `Prompt Guide worth ${PROMPT_GUIDE_PRICE} free`,
               "Zero upsells, ever",
               "100% professional guarantee",
               "Works for brands & creators",
@@ -463,7 +472,7 @@ function LandingPage() {
             href="#"
             className="mt-10 inline-flex items-center gap-2 rounded-full bg-lime text-lime-foreground px-8 py-4 text-base font-semibold hover:opacity-90 transition"
           >
-            Get the Kit for {PRICE} <ArrowRight className="size-4" />
+            Get the Kit for {PRICE_DISPLAY} <ArrowRight className="size-4" />
           </a>
         </div>
       </section>
@@ -505,40 +514,63 @@ function LandingPage() {
   );
 }
 
-function VideoCard({ title, tag, index }: { title: string; tag: string; index: number }) {
-  const aspect =
-    index % 3 === 0 ? "aspect-[4/5]" : index % 3 === 1 ? "aspect-[3/4]" : "aspect-[9/16]";
+function VideoCard({ title, tag, src }: { title: string; tag: string; src: string }) {
+  const [open, setOpen] = useState(false);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
+
   return (
-    <div
-      className={`group relative overflow-hidden rounded-2xl border border-border bg-card ${aspect}`}
-    >
-      <div
-        className="absolute inset-0"
-        style={{
-          background:
-            index % 2 === 0
-              ? "linear-gradient(135deg, oklch(0.25 0.02 240), oklch(0.18 0.005 240))"
-              : "linear-gradient(135deg, oklch(0.22 0.03 130 / 0.4), oklch(0.18 0.005 240))",
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-      <div className="absolute top-4 left-4">
-        <span className="rounded-full bg-lime text-lime-foreground text-[10px] font-semibold uppercase tracking-[0.15em] px-2.5 py-1">
-          {tag}
-        </span>
-      </div>
-      <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
-        <div>
-          <div className="font-display text-xl text-white">{title}</div>
-          <div className="text-xs text-white/60 mt-1">100% AI generated</div>
+    <>
+      <div className="group relative h-full overflow-hidden rounded-2xl border border-border bg-card aspect-[3/4]">
+        <video
+          src={src}
+          className="absolute inset-0 size-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
+        <div className="absolute top-4 left-4">
+          <span className="rounded-full bg-lime text-lime-foreground text-[10px] font-semibold uppercase tracking-[0.15em] px-2.5 py-1">
+            {tag}
+          </span>
         </div>
-        <button
-          aria-label="Play"
-          className="size-10 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center group-hover:bg-lime group-hover:text-lime-foreground transition"
-        >
-          <Play className="size-4" />
-        </button>
+        <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
+          <div>
+            <div className="font-display text-xl text-white">{title}</div>
+            <div className="text-xs text-white/60 mt-1">100% AI generated</div>
+          </div>
+          <button
+            type="button"
+            aria-label={`Play ${title}`}
+            onClick={() => setOpen(true)}
+            className="size-10 rounded-full bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center group-hover:bg-lime group-hover:text-lime-foreground transition"
+          >
+            <Play className="size-4" />
+          </button>
+        </div>
       </div>
-    </div>
+
+      <Dialog
+        open={open}
+        onOpenChange={(isOpen) => {
+          setOpen(isOpen);
+          if (!isOpen) modalVideoRef.current?.pause();
+        }}
+      >
+        <DialogContent className="max-w-3xl border-border bg-black p-0 overflow-hidden">
+          <DialogTitle className="sr-only">{title}</DialogTitle>
+          <video
+            ref={modalVideoRef}
+            src={src}
+            className="w-full aspect-[9/16] sm:aspect-video object-contain bg-black"
+            controls
+            autoPlay
+            playsInline
+            onLoadedData={() => modalVideoRef.current?.play()}
+          />
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
